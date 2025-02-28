@@ -2,7 +2,7 @@ class Morpheus < Formula
   desc "Modeling environment for multi-cellular systems biology"
   homepage "https://morpheus.gitlab.io/"
   url "https://gitlab.com/morpheus.lab/morpheus/-/archive/v2.3.9/morpheus-v2.3.9.tar.gz"
-  sha256 "2c948b6537dfc09b3a7fe536c722a6effbf0dbad30341f0aec0635a2806bd0f8"
+  sha256 "d27b7c2b5ecf503fd11777b3a75d4658a6926bfd9ae78ef97abf5e9540a6fb29"
   license "BSD-3-Clause"
 
   livecheck do
@@ -54,6 +54,7 @@ class Morpheus < Formula
 
     # Set PATH environment variable including Homebrew prefix in macOS app bundle
     inreplace "#{prefix}/Morpheus.app/Contents/Info.plist", "HOMEBREW_BIN_PATH", "#{HOMEBREW_PREFIX}/bin"
+    system "/usr/bin/codesign", "-f", "-s", "-", "#{prefix}/Morpheus.app"
   end
 
   test do
@@ -67,9 +68,9 @@ class Morpheus < Formula
           <Space>
               <Lattice class="linear">
                   <Neighborhood>
-                      <Order>1</Order>
+                      <Order>optimal</Order>
                   </Neighborhood>
-                  <Size value="100,  0.0,  0.0" symbol="size"/>
+                  <Size symbol="size" value="0.0, 0.0, 0.0"/>
               </Lattice>
               <SpaceSymbol symbol="space"/>
           </Space>
@@ -79,7 +80,7 @@ class Morpheus < Formula
               <TimeSymbol symbol="time"/>
           </Time>
           <Analysis>
-              <ModelGraph include-tags="#untagged" format="dot" reduced="false"/>
+              <ModelGraph format="dot" reduced="false" include-tags="#untagged"/>
           </Analysis>
       </MorpheusModel>
     XML
